@@ -23,6 +23,16 @@ export class BeARouter extends NavigateTrait {
             if (result !== null) {
                 const currentState = history.state || {};
                 const newState = Object.assign(currentState, result.pathname.groups);
+                const iPosOfQ = link.href.indexOf('?');
+                if (iPosOfQ > -1) {
+                    const qryString = link.href.substr(iPosOfQ + 1);
+                    const urlSearchParams = new URLSearchParams(qryString);
+                    const searchParams = {};
+                    for (const [key, value] of urlSearchParams.entries()) {
+                        searchParams[key] = value;
+                    }
+                    Object.assign(newState, { searchParams });
+                }
                 history.pushState(newState, link.innerText, link.href);
                 break;
             }
