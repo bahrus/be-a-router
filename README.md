@@ -1,6 +1,6 @@
 # be-a-router
 
-Use the experimental [urlpattern](https://github.com/WICG/urlpattern) api.
+Uses the experimental [urlpattern](https://github.com/WICG/urlpattern) [api polyfill](https://github.com/kenchris/urlpattern-polyfill) (dist folder output).
 
 ```html
 <be-a-router>
