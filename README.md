@@ -4,8 +4,14 @@ Uses the experimental [urlpattern](https://github.com/WICG/urlpattern) [api poly
 
 ```html
 <be-a-router><script type="application/json">[
-    { "pathname": "/myAccounts/:accountNo/statements/:statementId" },
-    { "pathname": "myAccounts/398821401/transactions"}
+    { 
+        "pathname": "myAccounts/:accountNo/statements/:statementId",
+        "baseURL": "http://localhost:8000/demo/"
+    },
+    { 
+        "pathname": "myAccounts/:accountNo/transactions",
+        "baseURL": "http://localhost:8000/demo/"
+    }
 ]</script></be-a-router>
 
 <nav be-a-router>

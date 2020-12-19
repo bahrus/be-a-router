@@ -24,7 +24,11 @@ export class BeARouter extends NavigateTrait{
         }
         for(const p of this.#patterns){
             const result = p.exec(link.href!);
-            console.log(result);
+            if(result !== null){
+                console.log(result);
+                history.pushState((result as any).pathname.groups, link.innerText, link.href);
+                break;
+            }
         }
 
     }
