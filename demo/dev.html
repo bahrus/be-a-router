@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <be-a-router><script type="application/json">[
+        { 
+            "pathname": "myAccounts/:accountNo/statements/:statementId",
+            "baseURL": "http://localhost:8000/demo/"
+        },
+        { 
+            "pathname": "myAccounts/:accountNo/transactions",
+            "baseURL": "http://localhost:8000/demo/"
+        }
+    ]</script></be-a-router>
+        
+    <nav be-a-router>
+        <a be-a-nav-link href="myAccounts/14394402/statements/201904?page=1">
+            Statement for April 2019
+        </a>
+        <br>
+        <a be-a-nav-link href="myAccounts/398821401/transactions?from=2020-10-01&to=2020-11-19">
+            Transactions for 10/1/2020 - 11/19/2020
+        </a>
+    </nav>
+
+    <script type=module>
+        import '../be-a-router.js';
+        import 'be-a-nav-link/be-a-nav-link.js';
+    </script>
+</body>
+</html>

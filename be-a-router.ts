@@ -10,6 +10,7 @@ export class BeARouter extends NavigateTrait{
     #patterns: URLPattern[] | undefined;
 
     parseLink(link: HTMLAnchorElement){
+        if(!link.hasAttribute('href')) return;
         if(this.#patterns === undefined){
             const jsonScript = this.querySelector('script');
             if(jsonScript == null){
@@ -22,7 +23,7 @@ export class BeARouter extends NavigateTrait{
             this.#patterns = parsedJSONScript.map(p => new URLPattern(p));
         }
         for(const p of this.#patterns){
-            const result = p.exec(link.href);
+            const result = p.exec(link.href!);
             console.log(result);
         }
 

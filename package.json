@@ -4,11 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "web-dev-server --node-resolve --app-index demo/dev.html  --watch --open"
   },
   "dependencies": {
     "navigate-trait": "0.0.4",
     "xtal-element": "0.0.315"
+  },
+  "devDependencies": {
+    "@web/dev-server": "0.0.29",
+    "be-a-nav-link": "0.0.2"
   },
   "repository": {
     "type": "git",
