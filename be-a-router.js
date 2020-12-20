@@ -20,7 +20,11 @@ export class BeARouter extends NavigateTrait {
             });
         }
         for (const p of this.#patterns) {
-            const result = p.exec(url);
+            let newURL = url;
+            if (anchor !== undefined) {
+                newURL = p.baseURL + '/' + anchor.getAttribute('href');
+            }
+            const result = p.exec(newURL);
             console.log(result);
             if (result !== null) {
                 const currentState = history.state || {};
@@ -35,13 +39,7 @@ export class BeARouter extends NavigateTrait {
                     }
                     Object.assign(newState, { searchParams });
                 }
-                if (anchor !== undefined) {
-                    const newURL = p.baseURL + '/' + anchor.getAttribute('href');
-                    history.pushState(newState, anchor.innerText, newURL);
-                }
-                else {
-                    history.pushState(newState, '', url);
-                }
+                history.pushState(newState, anchor?.innerText ?? '', newURL);
                 break;
             }
         }

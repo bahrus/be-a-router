@@ -9,6 +9,7 @@ export class BeARouter extends NavigateTrait{
     #patterns: URLPattern[] | undefined;
 
     parseURL(url: string, anchor?: HTMLAnchorElement){
+      
         if(this.#patterns === undefined){
             const jsonScript = this.querySelector('script');
             if(jsonScript == null){
@@ -25,7 +26,11 @@ export class BeARouter extends NavigateTrait{
             });
         }
         for(const p of this.#patterns){
-            const result = p.exec(url) as URLPatternInit;
+            let newURL = url;
+            if(anchor !== undefined){
+                newURL = (p as any).baseURL + '/' + anchor.getAttribute('href');
+            }  
+            const result = p.exec(newURL) as URLPatternInit;
             console.log(result);
             if(result !== null){
                 const currentState = history.state || {};
@@ -40,13 +45,7 @@ export class BeARouter extends NavigateTrait{
                     }
                     Object.assign(newState, {searchParams});
                 }
-                if(anchor !== undefined){
-                    const newURL = (p as any).baseURL + '/' + anchor.getAttribute('href');
-                    history.pushState(newState, anchor.innerText, newURL);
-                }else{
-                    history.pushState(newState, '', url);
-                }
-                
+                history.pushState(newState, anchor?.innerText??'', newURL);
                 break;
             }
         }
