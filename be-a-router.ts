@@ -8,13 +8,12 @@ export class BeARouter extends NavigateTrait{
 
     #patterns: URLPattern[] | undefined;
 
-    parseLink(link: HTMLAnchorElement){
-        if(!link.hasAttribute('href')) return;
+    parseURL(url: string, anchor?: HTMLAnchorElement){
         if(this.#patterns === undefined){
             const jsonScript = this.querySelector('script');
             if(jsonScript == null){
                 setTimeout(() => {
-                    this.parseLink(link);
+                    this.parseURL(url);
                 }, 50);
                 return;
             }
@@ -22,14 +21,14 @@ export class BeARouter extends NavigateTrait{
             this.#patterns = parsedJSONScript.map(p => new URLPattern(p));
         }
         for(const p of this.#patterns){
-            const result = p.exec(link.href!);
+            const result = p.exec(url);
             console.log(result);
             if(result !== null){
                 const currentState = history.state || {};
                 const newState = Object.assign(currentState, (result as any).pathname.groups);
-                const iPosOfQ = link.href!.indexOf('?');
+                const iPosOfQ = url.indexOf('?');
                 if(iPosOfQ > -1){
-                    const qryString = link.href!.substr(iPosOfQ + 1); 
+                    const qryString = url.substr(iPosOfQ + 1); 
                     const urlSearchParams = new URLSearchParams(qryString);
                     const searchParams: {[key: string]: string} = {};
                     for (const [key, value] of urlSearchParams.entries()) {
@@ -37,7 +36,7 @@ export class BeARouter extends NavigateTrait{
                     }
                     Object.assign(newState, {searchParams});
                 }
-                history.pushState(newState, link.innerText, link.href);
+                history.pushState(newState, anchor?.innerText?? '', url);
                 break;
             }
         }
