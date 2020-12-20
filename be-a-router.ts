@@ -18,10 +18,14 @@ export class BeARouter extends NavigateTrait{
                 return;
             }
             const parsedJSONScript = JSON.parse(jsonScript.innerHTML) as URLPatternInit[];
-            this.#patterns = parsedJSONScript.map(p => new URLPattern(p));
+            this.#patterns = parsedJSONScript.map(p => {
+                const returnObj = new URLPattern(p);
+                (returnObj as any).baseURL = p.baseURL;
+                return returnObj;
+            });
         }
         for(const p of this.#patterns){
-            const result = p.exec(url);
+            const result = p.exec(url) as URLPatternInit;
             console.log(result);
             if(result !== null){
                 const currentState = history.state || {};
@@ -36,7 +40,13 @@ export class BeARouter extends NavigateTrait{
                     }
                     Object.assign(newState, {searchParams});
                 }
-                history.pushState(newState, anchor?.innerText?? '', url);
+                if(anchor !== undefined){
+                    const newURL = (p as any).baseURL + '/' + anchor.getAttribute('href');
+                    history.pushState(newState, anchor.innerText, newURL);
+                }else{
+                    history.pushState(newState, '', url);
+                }
+                
                 break;
             }
         }

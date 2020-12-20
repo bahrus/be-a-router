@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "web-dev-server --node-resolve --app-index demo/dev.html  --watch --open"
+    "start": "web-dev-server --node-resolve --app-index demo  --watch --open"
   },
   "dependencies": {
     "navigate-trait": "0.0.8",
